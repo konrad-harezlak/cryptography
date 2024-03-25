@@ -28,10 +28,6 @@ class TestPasswordManager(unittest.TestCase):
         """
         password = "password123"
 
-        # Test storing and verifying password using a custom method
-        self.password_manager.store_password(password)
-        self.assertTrue(self.password_manager.verify_password(password))
-
         # Test storing and verifying password using pbkdf2_hmac
         self.password_manager.store_password_pbkdf2(password)
         self.assertTrue(self.password_manager.verify_password_pbkdf2(password))

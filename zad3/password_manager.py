@@ -1,7 +1,7 @@
 import hashlib
 import hmac
 from database import DatabaseManager
-from hash_utils import generate_salt, hash_password, verify_hashed_password
+import secrets
 
 class PasswordManager:
     """Class for managing passwords."""
@@ -16,29 +16,6 @@ class PasswordManager:
         self.db_manager = DatabaseManager(db_name)
         self.db_manager.create_table()
 
-    def store_password(self, password):
-        """Store password in the database after verifying it."""
-        salt = generate_salt()
-        hash_value = hash_password(password, salt)
-        self.db_manager.insert_password(hash_value, salt)
-        print("Password stored successfully.")
-
-    def verify_password(self, password):
-        """
-        Verify password using a custom method.
-
-        Args:
-            password (str): Password to be verified.
-
-        Returns:
-            bool: True if password is verified, False otherwise.
-        """
-        stored_passwords = self.db_manager.get_passwords()
-        for stored_password in stored_passwords:
-            hash_value, salt = stored_password
-            if verify_hashed_password(password, salt, hash_value):
-                return True
-        return False
 
     def store_password_pbkdf2(self, password):
         """
@@ -47,7 +24,7 @@ class PasswordManager:
         Args:
             password (str): Password to be stored.
         """
-        salt = generate_salt()
+        salt = secrets.token_hex(16)
         hash_value = self.pbkdf2_hash_password(password, salt)
         self.db_manager.insert_password(hash_value, salt)
         print("Password stored successfully.")
