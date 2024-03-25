@@ -17,15 +17,11 @@ class PasswordManager:
         self.db_manager.create_table()
 
     def store_password(self, password):
-        """
-        Store password using a custom method.
-
-        Args:
-            password (str): Password to be stored.
-        """
+        """Store password in the database after verifying it."""
         salt = generate_salt()
         hash_value = hash_password(password, salt)
         self.db_manager.insert_password(hash_value, salt)
+        print("Password stored successfully.")
 
     def verify_password(self, password):
         """
@@ -54,6 +50,7 @@ class PasswordManager:
         salt = generate_salt()
         hash_value = self.pbkdf2_hash_password(password, salt)
         self.db_manager.insert_password(hash_value, salt)
+        print("Password stored successfully.")
 
     def verify_password_pbkdf2(self, password):
         """
