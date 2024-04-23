@@ -1,5 +1,3 @@
-# steganography.py
-
 import png
 import base64
 from encryption import encrypt_message, decrypt_message

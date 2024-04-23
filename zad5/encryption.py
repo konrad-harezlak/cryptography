@@ -1,5 +1,3 @@
-# encryption.py
-
 def encrypt_message(message, key):
     encrypted_message = ""
     for char in message:
