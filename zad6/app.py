@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template
 from blockchain import Blockchain
 from wallet import Wallet
 import uuid
@@ -10,7 +10,7 @@ wallet = Wallet()
 
 @app.route('/')
 def index():
-    return app.send_static_file('index.html')
+    return render_template('index.html')
 
 @app.route('/mine', methods=['GET'])
 def mine():

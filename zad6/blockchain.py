@@ -38,3 +38,24 @@ class Blockchain:
     @property
     def last_block(self):
         return self.chain[-1]
+
+    def proof_of_work(self, last_proof):
+        """
+        Prosty algorytm dowodu pracy:
+         - Znajdź liczbę p' taką, że hash(pp') zawiera 4 wiodące zera, gdzie p to poprzedni proof, a p' to nowy proof.
+         - p to poprzedni proof, a p' to nowy proof
+        """
+        proof = 0
+        while self.valid_proof(last_proof, proof) is False:
+            proof += 1
+
+        return proof
+
+    @staticmethod
+    def valid_proof(last_proof, proof):
+        """
+        Sprawdza, czy hash(last_proof, proof) zawiera 4 wiodące zera.
+        """
+        guess = f'{last_proof}{proof}'.encode()
+        guess_hash = hashlib.sha256(guess).hexdigest()
+        return guess_hash[:4] == "0000"
